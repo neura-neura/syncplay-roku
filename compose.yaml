@@ -1,0 +1,13 @@
+services:
+  bridge:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${BRIDGE_BIND_IP:-127.0.0.1}:8787:8787"
+    volumes:
+      - ./.local:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -1,0 +1,1 @@
+{"private":true,"scripts":{"check":"bsc --project bsconfig.json","package":"python3 scripts/package.py"},"devDependencies":{"brighterscript":"^0.72.0"}}

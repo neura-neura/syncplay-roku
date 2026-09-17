@@ -1,0 +1,15 @@
+Syncplay Noir Roku
+
+Protocol compatibility based on Syncplay / syncplay-noir (Apache-2.0).
+Reference: https://github.com/neura-neura/syncplay-noir
+Reference commit: 812c3f165e88c582d2fb941c23630659d4db34a3
+
+Bundled font: Noto Sans CJK SC Regular and Bold, SIL Open Font License 1.1.
+Source: https://github.com/notofonts/noto-cjk
+License and copyright: roku/fonts/LICENSE.txt
+
+Noir Player subtitle style defaults and GothamPro font assets sourced from:
+https://github.com/neura-neura/noir-player
+Reference commit: 54eb8d176475186580259686050b8f4bec141aeb
+Upstream repository license copied to bridge/fonts/NOIR-PLAYER-LICENSE.txt.
+Font binaries retained as provided upstream; embedded font metadata retained.

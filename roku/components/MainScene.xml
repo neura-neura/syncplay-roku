@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MainScene" extends="Scene">
+<interface>
+<field id="transportCommand" type="assocarray" alwaysNotify="true" onChange="transportCommand"/>
+<field id="transportResponse" type="assocarray" alwaysNotify="true"/>
+</interface>
+<script type="text/brightscript" uri="MainScene.brs"/>
+<children>
+<Rectangle width="1920" height="1080" color="#0B101B"/>
+<Group id="shell">
+<Label translation="[90,65]" text="SYNCPLAY / TV" color="#68D9C6" width="1500"/>
+<Label translation="[90,120]" text="N O I R" font="font:LargeBoldSystemFont" width="1500"/>
+<Label id="status" translation="[90,205]" text="Conectando al puente…" width="1720" color="#A5B7D0"/>
+<Rectangle translation="[80,285]" width="820" height="660" color="#152034"/>
+<Label id="heading" translation="[110,300]" text="Inicio" width="750"/>
+<LabelList id="menu" translation="[100,365]" itemSize="[780,60]" numRows="9" vertFocusAnimationStyle="floatingFocus"/>
+<Label id="details" translation="[960,305]" width="840" height="650" wrap="true" text="Selecciona un video de tu biblioteca remota." color="#BCCAE0"/>
+<Label id="footer" translation="[90,990]" width="1740" color="#7992B4" text="OK · Seleccionar     Atrás · Volver     Play · Pausar / continuar     * · Opciones"/>
+</Group>
+<Video id="video" width="1920" height="1080" visible="false" enableUI="false"/>
+<Group id="captions" visible="false">
+<Rectangle id="captionBackground" width="1740" height="160" color="#000000FF" opacity="0.72"/>
+<Label id="captionText" translation="[20,8]" width="1700" height="0" wrap="true" horizAlign="center" color="#FFFFFF">
+<Font role="font" uri="pkg:/fonts/NotoSansCJKsc-Regular.otf" size="42"/>
+</Label>
+</Group>
+<Poster id="captionImage" visible="false"/>
+<Poster id="captionPreload" visible="false"/>
+<Timer id="captionTimer" duration="0.1" repeat="true"/>
+<RemoteInput id="remoteInput"/>
+<Group id="transport" visible="false" translation="[0,795]">
+<Rectangle width="1920" height="285" color="#091220EE"/>
+<Label id="transportTitle" translation="[90,24]" width="1740" height="48" font="font:MediumBoldSystemFont"/>
+<Label id="transportState" translation="[90,79]" width="1300" height="40" color="#68D9C6"/>
+<Label id="transportTime" translation="[1390,79]" width="440" height="40" horizAlign="right"/>
+<Rectangle translation="[90,137]" width="1740" height="8" color="#3A4960"/>
+<Rectangle id="transportProgress" translation="[90,137]" width="0" height="8" color="#68D9C6"/>
+<Label translation="[90,174]" width="1740" height="42" text="OK / Play: pausa    Izq / Der: 10 s    REW / FWD: 30 s    Arriba: información" color="#C3D0E3"/>
+<Label translation="[90,219]" width="1740" height="36" text="Abajo: ocultar    Replay: retroceder 10 s    Atrás / *: menú" color="#92A8C5"/>
+</Group>
+<Timer id="transportTimer" duration="5" repeat="false"/>
+<Label id="overlay" translation="[90,690]" width="1740" height="110" wrap="true" visible="false" color="#FFFFFF"/>
+<Timer id="tick" duration="0.5" repeat="true"/>
+<Timer id="overlayTimer" duration="4" repeat="false"/>
+</children>
+</component>

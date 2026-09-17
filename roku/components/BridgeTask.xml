@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="BridgeTask" extends="Task">
+<interface>
+<field id="baseUrl" type="string"/>
+<field id="token" type="string"/>
+<field id="command" type="assocarray" alwaysNotify="true"/>
+<field id="telemetry" type="assocarray"/>
+<field id="configuration" type="assocarray" alwaysNotify="true"/>
+<field id="captions" type="assocarray" alwaysNotify="true"/>
+<field id="snapshot" type="assocarray" alwaysNotify="true"/>
+<field id="response" type="assocarray" alwaysNotify="true"/>
+<field id="problem" type="string" alwaysNotify="true"/>
+</interface>
+<script type="text/brightscript" uri="BridgeTask.brs"/>
+</component>

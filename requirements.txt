@@ -1,0 +1,9 @@
+fastapi>=0.115,<1
+uvicorn>=0.34,<1
+smbprotocol>=1.15,<2
+pysubs2>=1.8,<2
+requests>=2.32,<3
+pillow>=11,<13
+fonttools>=4.55,<5
+brotli>=1.1,<2
+tinycss2>=1.4,<2

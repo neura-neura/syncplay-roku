@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="RemoteInput" extends="Group">
+<interface><field id="keyEvent" type="assocarray" alwaysNotify="true"/></interface>
+<script type="text/brightscript"><![CDATA[
+function onKeyEvent(key as String, press as Boolean) as Boolean
+    m.top.keyEvent = {key: key, press: press}
+    return true
+end function
+]]></script>
+</component>
