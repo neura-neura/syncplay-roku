@@ -100,6 +100,27 @@ class Fonts:
         temp.replace(self.manifest)
         return {'id': key, 'families': sorted(set(f['family'] for f in faces))}
 
+    def blend_choices(self, family, weight, css_id=''):
+        """Bracket static masters; real variable fonts keep their native axis."""
+        faces = [f for f in self.catalog.get(css_id, {}).get('faces', [])
+                 if f['family'] == family]
+        if faces and any(f.get('variable') for f in faces):
+            return [(p, p, 0.0) for p in self.choices(family, weight, css_id)]
+        if faces:
+            weights = sorted(set(f['weight'] for f in faces))
+            paths = lambda w: [self.directory / f['file'] for f in faces if f['weight'] == w]
+        elif family == 'Noto Sans CJK':
+            weights = [400, 700]
+            paths = lambda w: [BUNDLED / ('NotoSansCJKsc-Regular.otf' if w == 400 else 'NotoSansCJKsc-Bold.otf')]
+        else:
+            weights = sorted(GOTHAM_VARIANTS)
+            paths = lambda w: [BUNDLED / f'GothamPro-{w}.ttf']
+        low = max((w for w in weights if w <= weight), default=weights[0])
+        high = min((w for w in weights if w >= weight), default=weights[-1])
+        fraction = (weight - low) / (high - low) if high != low else 0.0
+        # Pair Unicode subsets by coverage at render time rather than CSS ordering.
+        return [(a, b, fraction) for a in paths(low) for b in paths(high)]
+
     def choices(self, family, weight, css_id=''):
         if css_id in self.catalog:
             faces = [f for f in self.catalog[css_id]['faces'] if f['family'] == family]

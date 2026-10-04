@@ -68,3 +68,20 @@ def test_gotham_variants_and_css_weight_matching(tmp_path):
     images = [render('Gotham Medium Black',SubtitleStyle(weight=w,shadow=False),fonts)
               for w in [400,500,700,900]]
     assert len({(im.size,im.tobytes()) for im in images}) == 4
+
+
+def test_continuous_weight_between_original_anchors(tmp_path):
+    from bridge.caption_render import glyph_mask
+    fonts = Fonts(tmp_path)
+    for weight in [300,400,500,700,900]:
+        assert fonts.blend_choices('GothamPro',weight) == [(BUNDLED/f'GothamPro-{weight}.ttf', BUNDLED/f'GothamPro-{weight}.ttf', 0)]
+    assert fonts.blend_choices('GothamPro',600)[0] == (BUNDLED/'GothamPro-500.ttf', BUNDLED/'GothamPro-700.ttf', .5)
+    # Consecutive values must change real glyph coverage, with a smooth endpoint.
+    low,high = str(BUNDLED/'GothamPro-500.ttf'),str(BUNDLED/'GothamPro-700.ttf')
+    import numpy as np
+    areas = [np.asarray(glyph_mask(low,high,72,'H',t)[1]).sum()/255 for t in [0,.25,.5,.75,.995,1]]
+    assert all(a < b for a,b in zip(areas,areas[1:]))
+    assert abs(areas[-1]-areas[-2]) < (areas[-1]-areas[0])*.03
+    images = [render('Gotham Aa 中文',SubtitleStyle(weight=w,shadow=False,opacity=0),fonts) for w in [599,600,601]]
+    assert len({(im.size,im.tobytes()) for im in images}) == 3
+    assert fonts.blend_choices('GothamPro',100) == fonts.blend_choices('GothamPro',300)

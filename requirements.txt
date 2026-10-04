@@ -7,3 +7,5 @@ pillow>=11,<13
 fonttools>=4.55,<5
 brotli>=1.1,<2
 tinycss2>=1.4,<2
+numpy>=2,<3
+scipy>=1.14,<2
