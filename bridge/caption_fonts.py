@@ -10,6 +10,24 @@ from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 
 BUNDLED = Path(__file__).with_name('fonts')
+GOTHAM_VARIANTS = {300: 'Light', 400: 'Regular', 500: 'Medium', 700: 'Bold', 900: 'Black'}
+
+
+def match_weight(available, requested):
+    """CSS font matching for static faces, including the special 400–500 range."""
+    weights = sorted(set(available))
+    if 400 <= requested <= 500:
+        order = ([w for w in weights if requested <= w <= 500]
+                 + sorted((w for w in weights if w < requested), reverse=True)
+                 + [w for w in weights if w > 500])
+    elif requested < 400:
+        order = (sorted((w for w in weights if w <= requested), reverse=True)
+                 + [w for w in weights if w > requested])
+    else:
+        order = ([w for w in weights if w >= requested]
+                 + sorted((w for w in weights if w < requested), reverse=True))
+    return order[0]
+
 
 class Fonts:
     def __init__(self, directory):
@@ -100,9 +118,9 @@ class Fonts:
                                 instance.save(target)
                         paths.append(target)
                     return paths
-                nearest = min(faces, key=lambda f: abs(f['weight'] - weight))['weight']
+                nearest = match_weight([f['weight'] for f in faces], weight)
                 return [self.directory / f['file'] for f in faces if f['weight'] == nearest]
         if family == 'Noto Sans CJK':
             return [BUNDLED / ('NotoSansCJKsc-Bold.otf' if weight >= 600 else 'NotoSansCJKsc-Regular.otf')]
-        nearest = min([300,400,500,700,900], key=lambda w: abs(w-weight))
+        nearest = match_weight(GOTHAM_VARIANTS, weight)
         return [BUNDLED / f'GothamPro-{nearest}.ttf']

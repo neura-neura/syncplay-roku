@@ -6,7 +6,7 @@ from fontTools.ttLib import TTFont
 from .caption_fonts import BUNDLED
 from .subtitles import normalize_newlines
 
-RENDER_VERSION = "2-newlines"
+RENDER_VERSION = "3-css-font-weights"
 
 @lru_cache(maxsize=128)
 def cmap(path):

@@ -52,3 +52,19 @@ def test_windows_line_endings_render_identically(tmp_path):
         actual = render(text.replace('\n', separator), style, fonts)
         assert actual.size == expected.size
         assert actual.tobytes() == expected.tobytes()
+
+
+def test_gotham_variants_and_css_weight_matching(tmp_path):
+    from bridge.caption_fonts import match_weight
+    fonts = Fonts(tmp_path)
+    for requested, resolved in [(100,300),(300,300),(400,400),(450,500),
+                                (500,500),(600,700),(700,700),(800,900),(900,900)]:
+        assert fonts.choices('GothamPro', requested) == [BUNDLED / f'GothamPro-{resolved}.ttf']
+    assert match_weight([300,500,700],400) == 500
+    # Imported CSS faces follow the same matching, regardless of internal font names.
+    fonts.catalog['test'] = {'faces': [dict(family='Imported Gotham',weight=w,file=f'face-{w}.ttf')
+                                      for w in [300,400,500,700,900]]}
+    assert fonts.choices('Imported Gotham',600,'test')[0].name == 'face-700.ttf'
+    images = [render('Gotham Medium Black',SubtitleStyle(weight=w,shadow=False),fonts)
+              for w in [400,500,700,900]]
+    assert len({(im.size,im.tobytes()) for im in images}) == 4
